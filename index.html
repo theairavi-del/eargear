@@ -6,59 +6,88 @@
     <title>EarGear - Protection, perfected.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --apple-bg: #f5f5f7;
-            --apple-text: #1d1d1f;
-            --apple-text-secondary: #86868b;
-            --apple-blue: #0071e3;
-            --apple-blue-hover: #0077ed;
-            --nav-bg: rgba(251, 251, 253, 0.8);
+            --bg: #000000;
+            --text: #ffffff;
+            --text-secondary: #86868b;
+            --accent: #2997ff;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fff;
-            color: var(--apple-text);
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigation - Apple Style */
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #loader.hidden { opacity: 0; pointer-events: none; }
+
+        .loader-logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff 0%, #86868b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation */
         .nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             height: 52px;
-            background: var(--nav-bg);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 22px;
-            transition: all 0.3s ease;
+            padding: 0 max(22px, calc((100vw - 1200px) / 2));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .nav-logo {
             font-size: 21px;
             font-weight: 600;
             letter-spacing: -0.5px;
-            color: var(--apple-text);
+            color: var(--text);
             text-decoration: none;
         }
 
@@ -70,642 +99,556 @@
 
         .nav-links a {
             font-size: 12px;
-            font-weight: 400;
-            color: var(--apple-text);
+            color: var(--text);
             text-decoration: none;
             opacity: 0.8;
             transition: opacity 0.2s;
         }
 
-        .nav-links a:hover {
-            opacity: 1;
-        }
+        .nav-links a:hover { opacity: 1; }
 
-        .nav-cta {
-            background: var(--apple-blue);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 980px;
-            font-size: 12px;
-            font-weight: 400;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .nav-cta:hover {
-            background: var(--apple-blue-hover);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 120px 20px 80px;
-            background: linear-gradient(180deg, #fff 0%, var(--apple-bg) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 980px;
-            z-index: 2;
-        }
-
-        .hero-eyebrow {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--apple-text);
-            margin-bottom: 8px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        .hero-title {
-            font-size: 96px;
-            font-weight: 700;
-            letter-spacing: -0.015em;
-            line-height: 1.05;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards;
-            animation-delay: 0.4s;
-        }
-
-        .hero-subtitle {
-            font-size: 28px;
-            font-weight: 400;
-            color: var(--apple-text-secondary);
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards;
-            animation-delay: 0.6s;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards;
-            animation-delay: 0.8s;
-        }
-
-        .btn-primary {
-            background: var(--apple-blue);
-            color: #fff;
-            padding: 18px 36px;
-            border-radius: 980px;
-            font-size: 17px;
-            font-weight: 400;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: var(--apple-blue-hover);
-            transform: scale(1.02);
-        }
-
-        .btn-secondary {
-            color: var(--apple-blue);
-            padding: 18px 36px;
-            font-size: 21px;
-            font-weight: 400;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-secondary:hover {
-            text-decoration: underline;
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 700px;
-            margin-top: 60px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(60px) scale(0.9);
-            animation: heroImageIn 1.2s ease forwards;
-            animation-delay: 1s;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 40px;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
-        }
-
-        /* Scroll Reveal Sections */
-        .section {
-            padding: 160px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-size: 72px;
-            font-weight: 700;
-            letter-spacing: -0.015em;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .section-subtitle {
-            font-size: 28px;
-            font-weight: 400;
-            color: var(--apple-text-secondary);
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 80px;
-            line-height: 1.4;
-        }
-
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-
-        .feature-card {
-            background: var(--apple-bg);
-            border-radius: 28px;
-            padding: 60px 40px;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .feature-card.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .feature-card h3 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .feature-card p {
-            font-size: 21px;
-            color: var(--apple-text-secondary);
-            line-height: 1.4;
-        }
-
-        .feature-image {
-            width: 100%;
-            max-width: 500px;
-            margin: 40px auto 0;
-        }
-
-        .feature-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }
-
-        /* Opening Animation Section */
-        .opening-section {
-            min-height: 300vh;
-            position: relative;
-            background: #000;
-            overflow: hidden;
-        }
-
-        .opening-sticky {
-            position: sticky;
+        /* 3D Canvas */
+        #canvas-container {
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Scroll Content */
+        .scroll-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .opening-text {
-            position: absolute;
-            text-align: center;
-            color: #fff;
-            z-index: 10;
-            top: 15%;
-        }
-
-        .opening-text h2 {
-            font-size: 56px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .opening-text p {
-            font-size: 24px;
-            color: #86868b;
-        }
-
-        /* Case container */
-        .case-container {
             position: relative;
-            width: 600px;
-            height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* The closed case */
-        .case-closed {
+        .section-text {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            object-fit: contain;
-            transition: all 0.1s linear;
-            z-index: 5;
-        }
-
-        /* The open case (revealed as you scroll) */
-        .case-open {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            object-fit: contain;
+            max-width: 500px;
+            padding: 0 40px;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.1s linear;
-            z-index: 4;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Popping items */
-        .pop-item {
-            position: absolute;
-            font-size: 48px;
-            opacity: 0;
-            transform: scale(0) translateY(0);
-            transition: all 0.1s linear;
+        .section-text.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .pop-item:nth-child(3) { /* Earbuds */
-            top: 30%;
-            left: 35%;
-            z-index: 6;
-        }
+        .section-text.left { left: 0; }
+        .section-text.right { right: 0; text-align: right; }
+        .section-text.center { text-align: center; left: 50%; transform: translateX(-50%) translateY(40px); }
+        .section-text.center.visible { transform: translateX(-50%) translateY(0); }
 
-        .pop-item:nth-child(4) { /* Lightning */
-            top: 60%;
-            right: 25%;
-            z-index: 6;
-        }
-
-        .pop-item:nth-child(5) { /* Accessories */
-            bottom: 25%;
-            left: 30%;
-            z-index: 6;
-        }
-
-        /* Specs Section */
-        .specs {
-            background: var(--apple-bg);
-            padding: 160px 20px;
-        }
-
-        .specs-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 60px;
-            text-align: center;
-        }
-
-        .spec-item h4 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--apple-text);
-        }
-
-        .spec-item p {
+        .eyebrow {
             font-size: 17px;
-            color: var(--apple-text-secondary);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        /* Buy Section */
-        .buy-section {
-            padding: 160px 20px;
-            text-align: center;
-            background: #fff;
-        }
-
-        .buy-title {
-            font-size: 64px;
-            font-weight: 700;
+        .headline {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
             margin-bottom: 24px;
         }
 
-        .buy-price {
-            font-size: 28px;
-            color: var(--apple-text-secondary);
-            margin-bottom: 40px;
+        .subhead {
+            font-size: clamp(21px, 3vw, 28px);
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
-        .buy-image {
-            max-width: 500px;
-            margin: 0 auto 60px;
+        /* Features */
+        .features {
+            background: #fff;
+            padding: 150px 40px;
+            position: relative;
+            z-index: 10;
         }
 
-        .buy-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 30px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        .features-title {
+            text-align: center;
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 80px;
+            letter-spacing: -0.02em;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--apple-bg);
-            padding: 40px 20px;
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .footer-content {
+        .features-grid {
             max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            border-radius: 24px;
+            margin: 0 auto 28px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            font-size: 32px;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
+        .feature h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
         }
 
-        .footer-links a {
-            font-size: 12px;
-            color: var(--apple-text-secondary);
+        .feature p {
+            font-size: 17px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* CTA */
+        .cta {
+            background: #000;
+            padding: 150px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-headline {
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 500;
             text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .footer-links a:hover {
-            text-decoration: underline;
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: #0077ed;
         }
 
-        /* Animations */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .cta-price {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-top: 24px;
         }
 
-        @keyframes heroImageIn {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        /* Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            height: 1px;
+            background: var(--accent);
+            z-index: 1001;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        @keyframes popOut {
-            0% {
-                opacity: 0;
-                transform: scale(0) translateY(50px);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.2) translateY(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .nav-links { display: none; }
+            .section-text { padding: 0 20px; }
+            .section-text.left, .section-text.right { 
+                left: 0; 
+                right: 0; 
+                text-align: center; 
             }
-
-            .hero-title {
-                font-size: 48px;
-            }
-
-            .hero-subtitle {
-                font-size: 21px;
-            }
-
-            .hero-image {
-                max-width: 90%;
-            }
-
-            .hero-image img {
-                border-radius: 24px;
-            }
-
-            .section-title {
-                font-size: 40px;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .specs-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .case-container {
-                width: 350px;
-                height: 350px;
-            }
-
-            .case-closed {
-                width: 250px;
-                height: 250px;
-            }
-
-            .case-open {
-                width: 300px;
-                height: 300px;
-            }
-
-            .opening-text h2 {
-                font-size: 36px;
-            }
-
-            .opening-text p {
-                font-size: 18px;
-            }
+            .features { padding: 100px 20px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <div id="loader">
+        <div class="loader-logo">EarGear</div>
+        <div class="loader-bar">
+            <div class="loader-progress" id="loaderProgress"></div>
+        </div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <nav class="nav">
         <a href="#" class="nav-logo">EarGear</a>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
-            <li><a href="#opening">Experience</a></li>
-            <li><a href="#specs">Specs</a></li>
+            <li><a href="#buy">Buy</a></li>
         </ul>
-        <a href="#buy" class="nav-cta">Buy</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <p class="hero-eyebrow">Introducing</p>
-            <h1 class="hero-title">EarGear</h1>
-            <p class="hero-subtitle">Protection, perfected. A matte black case that safeguards your wireless earbuds in style.</p>
-            <div class="hero-cta">
-                <a href="#buy" class="btn-primary">Buy $29</a>
-                <a href="#features" class="btn-secondary">Learn more ></a>
-            </div>
-        </div>
-        <div class="hero-image">
-            <img src="images/eargear-1.jpg" alt="EarGear Case - Matte Black Protective Case">
-        </div>
-    </section>
+    <div id="canvas-container"></div>
 
-    <!-- Features Section -->
-    <section id="features" class="section">
-        <h2 class="section-title">Engineered for protection.<br>Designed for style.</h2>
-        <p class="section-subtitle">Every curve, every surface, every detail crafted to keep your earbuds safe while looking incredible.</p>
-        
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>Matte Black Finish</h3>
-                <p>Smooth, fingerprint-resistant surface that stays pristine</p>
-                <div class="feature-image">
-                    <img src="images/eargear-3.jpg" alt="EarGear Detail - Matte Black Finish">
-                </div>
+    <div class="scroll-content">
+        <section class="section" id="sec1">
+            <div class="section-text center visible">
+                <div class="headline">EarGear</div>
+                <div class="subhead">Protection, perfected.</div>
             </div>
-            <div class="feature-card">
-                <h3>Premium Materials</h3>
-                <p>High-quality construction that feels as good as it looks</p>
-                <div class="feature-image">
-                    <img src="images/eargear-2.jpg" alt="EarGear Materials">
-                </div>
-            </div>
-            <div class="feature-card full-width">
-                <h3>Complete Protection</h3>
-                <p>360-degree coverage that keeps your earbuds safe from drops, scratches, and daily wear</p>
-                <div class="feature-image" style="max-width: 700px;">
-                    <img src="images/eargear-1.jpg" alt="EarGear Complete Protection">
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Opening Animation Section -->
-    <section id="opening" class="opening-section">
-        <div class="opening-sticky">
-            <div class="opening-text">
-                <h2>Unbox the experience.</h2>
-                <p>Scroll to reveal what's inside</p>
+        <section class="section" id="sec2">
+            <div class="section-text left" id="text2">
+                <div class="eyebrow">Precision Engineering</div>
+                <div class="headline">Effortless Access</div>
+                <div class="subhead">Magnetic clasp opens smoothly with a satisfying click. One hand, zero friction.</div>
             </div>
-            <div class="case-container">
-                <!-- Closed case -->
-                <img src="images/eargear-1.jpg" alt="EarGear Case Closed" class="case-closed" id="caseClosed">
-                <!-- Open case -->
-                <img src="images/eargear-2.jpg" alt="EarGear Case Open" class="case-open" id="caseOpen">
-                <!-- Popping items -->
-                <div class="pop-item" id="popItem1">🎧</div>
-                <div class="pop-item" id="popItem2">⚡</div>
-                <div class="pop-item" id="popItem3">🔒</div>
+        </section>
+
+        <section class="section" id="sec3">
+            <div class="section-text right" id="text3">
+                <div class="eyebrow">Military Grade</div>
+                <div class="headline">Ultimate Protection</div>
+                <div class="subhead">Matte black silicone shields your earbuds from drops, dust, and daily wear.</div>
+            </div>
+        </section>
+
+        <section class="section" id="sec4">
+            <div class="section-text left" id="text4">
+                <div class="eyebrow">Instant Ready</div>
+                <div class="headline">Always Prepared</div>
+                <div class="subhead">Your earbuds emerge perfectly positioned, charged, and ready to deliver premium sound.</div>
+            </div>
+        </section>
+    </div>
+
+    <section class="features" id="features">
+        <h2 class="features-title">Engineered for life.</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <h3>Drop Protection</h3>
+                <p>Survives falls from up to 10 feet with reinforced impact-absorbing corners.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Wireless Charging</h3>
+                <p>Full Qi compatibility. Charge without removing the case.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✓</div>
+                <h3>Precise Fit</h3>
+                <p>Perfect alignment with LED visible and full button access maintained.</p>
             </div>
         </div>
     </section>
 
-    <!-- Specs Section -->
-    <section id="specs" class="specs">
-        <div class="section" style="opacity: 1; transform: none; padding: 0;">
-            <h2 class="section-title">Tech Specs</h2>
-            <div class="specs-grid">
-                <div class="spec-item">
-                    <h4>Premium</h4>
-                    <p>Matte black silicone</p>
-                </div>
-                <div class="spec-item">
-                    <h4>360°</h4>
-                    <p>Full protection coverage</p>
-                </div>
-                <div class="spec-item">
-                    <h4>Wireless</h4>
-                    <p>Charging compatible</p>
-                </div>
-                <div class="spec-item">
-                    <h4>Dustproof</h4>
-                    <p>Sealed construction</p>
-                </div>
-                <div class="spec-item">
-                    <h4>Drop Safe</h4>
-                    <p>Impact absorption</p>
-                </div>
-                <div class="spec-item">
-                    <h4>Matte</h4>
-                    <p>Fingerprint resistant</p>
-                </div>
-            </div>
-        </div>
+    <section class="cta" id="buy">
+        <div class="cta-headline">EarGear</div>
+        <a href="#" class="cta-button">
+            Buy Now
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 6H11M11 6L6 1M11 6L6 11" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+        </a>
+        <div class="cta-price">$29.99</div>
     </section>
 
-    <!-- Buy Section -->
-    <section id="buy" class="buy-section">
-        <h2 class="buy-title">EarGear</h2>
-        <p class="buy-price">$29</p>
-        <div class="buy-image">
-            <img src="images/eargear-1.jpg" alt="EarGear Product">
-        </div>
-        <a href="#" class="btn-primary" style="font-size: 21px;">Add to Bag</a>
-        <p style="margin-top: 20px; color: var(--apple-text-secondary); font-size: 14px;">Free shipping on all orders</p>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p style="font-size: 12px; color: var(--apple-text-secondary);">© 2026 EarGear. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Use</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Scroll reveal animation
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+        // Loading simulation
+        let loadProgress = 0;
+        const loaderProgress = document.getElementById('loaderProgress');
+        const loader = document.getElementById('loader');
+        
+        const loadInterval = setInterval(() => {
+            loadProgress += Math.random() * 15;
+            if (loadProgress >= 100) {
+                loadProgress = 100;
+                clearInterval(loadInterval);
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 300);
+            }
+            loaderProgress.style.width = loadProgress + '%';
+        }, 100);
+
+        // Three.js Scene
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+        scene.fog = new THREE.FogExp2(0x000000, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1, 12);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.3;
+        container.appendChild(renderer.domElement);
+
+        // Lighting Studio Setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.SpotLight(0xffffff, 2);
+        keyLight.position.set(5, 8, 5);
+        keyLight.angle = Math.PI / 4;
+        keyLight.penumbra = 0.3;
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 2048;
+        keyLight.shadow.mapSize.height = 2048;
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x4488ff, 0.8);
+        fillLight.position.set(-5, 3, -5);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.SpotLight(0xffffff, 3);
+        rimLight.position.set(0, 5, -8);
+        rimLight.lookAt(0, 0, 0);
+        scene.add(rimLight);
+
+        // Materials
+        const caseMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0x1a1a1a,
+            roughness: 0.6,
+            metalness: 0.2,
+            clearcoat: 0.3,
+            clearcoatRoughness: 0.4
+        });
+
+        const interiorMaterial = new THREE.MeshStandardMaterial({
+            color: 0x0a0a0a,
+            roughness: 0.9
+        });
+
+        const earbudMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xf5f5f7,
+            roughness: 0.3,
+            metalness: 0.1,
+            clearcoat: 0.8
+        });
+
+        const stemMaterial = new THREE.MeshStandardMaterial({
+            color: 0xdddddd,
+            roughness: 0.4,
+            metalness: 0.3
+        });
+
+        // Case Group
+        const caseGroup = new THREE.Group();
+        scene.add(caseGroup);
+
+        // Case Bottom - Rounded box approximation
+        const caseWidth = 2.4;
+        const caseHeight = 1;
+        const caseDepth = 1.1;
+        const radius = 0.15;
+
+        // Create case bottom using multiple geometries for rounded corners
+        const bottomGroup = new THREE.Group();
+        caseGroup.add(bottomGroup);
+
+        // Main body
+        const bodyGeo = new THREE.BoxGeometry(caseWidth - radius*2, caseHeight, caseDepth - radius*2);
+        const bodyMesh = new THREE.Mesh(bodyGeo, caseMaterial);
+        bodyMesh.castShadow = true;
+        bodyMesh.receiveShadow = true;
+        bottomGroup.add(bodyMesh);
+
+        // Interior hollow (slightly smaller box subtracted visually)
+        const interiorGeo = new THREE.BoxGeometry(caseWidth - 0.2, 0.6, caseDepth - 0.2);
+        const interiorMesh = new THREE.Mesh(interiorGeo, interiorMaterial);
+        interiorMesh.position.y = 0.2;
+        bottomGroup.add(interiorMesh);
+
+        // Case Lid
+        const lidGroup = new THREE.Group();
+        lidGroup.position.set(0, caseHeight/2, -caseDepth/2 + radius);
+        caseGroup.add(lidGroup);
+
+        const lidGeo = new THREE.BoxGeometry(caseWidth - radius*2, 0.08, caseDepth - radius*2);
+        const lidMesh = new THREE.Mesh(lidGeo, caseMaterial);
+        lidMesh.position.set(0, 0.04, caseDepth/2 - radius);
+        lidMesh.castShadow = true;
+        lidGroup.add(lidMesh);
+
+        // Lid detail - subtle curve
+        const lidDetailGeo = new THREE.BoxGeometry(caseWidth - 0.3, 0.02, caseDepth - 0.3);
+        const lidDetail = new THREE.Mesh(lidDetailGeo, caseMaterial);
+        lidDetail.position.set(0, 0.09, caseDepth/2 - radius);
+        lidGroup.add(lidDetail);
+
+        // Earbuds
+        function createEarbud(x) {
+            const earbudGroup = new THREE.Group();
+            earbudGroup.position.set(x, 0.3, 0);
+
+            // Main body - rounded
+            const bodyGeo = new THREE.SphereGeometry(0.22, 32, 32);
+            bodyGeo.scale(1, 0.9, 0.8);
+            const body = new THREE.Mesh(bodyGeo, earbudMaterial);
+            body.castShadow = true;
+            earbudGroup.add(body);
+
+            // Stem
+            const stemGeo = new THREE.CylinderGeometry(0.06, 0.05, 0.7, 16);
+            const stem = new THREE.Mesh(stemGeo, stemMaterial);
+            stem.position.set(0, -0.4, 0.15);
+            stem.rotation.x = 0.2;
+            stem.castShadow = true;
+            earbudGroup.add(stem);
+
+            // Speaker mesh
+            const speakerGeo = new THREE.CircleGeometry(0.08, 16);
+            const speaker = new THREE.Mesh(speakerGeo, new THREE.MeshStandardMaterial({
+                color: 0x333333,
+                roughness: 0.8
+            }));
+            speaker.position.set(0, 0, 0.18);
+            speaker.rotation.x = -0.2;
+            earbudGroup.add(speaker);
+
+            return earbudGroup;
+        }
+
+        const leftEarbud = createEarbud(-0.55);
+        const rightEarbud = createEarbud(0.55);
+        caseGroup.add(leftEarbud);
+        caseGroup.add(rightEarbud);
+
+        // Load and apply user images as billboards
+        const textureLoader = new THREE.TextureLoader();
+        
+        function createBillboard(texture, scale, position, opacity = 1) {
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                opacity: opacity,
+                side: THREE.DoubleSide
+            });
+            const geometry = new THREE.PlaneGeometry(scale.x, scale.y);
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.copy(position);
+            return mesh;
+        }
+
+        // Load textures and create billboards
+        const billboards = [];
+        
+        Promise.all([
+            new Promise(resolve => textureLoader.load('images/eargear-1.jpg', resolve)),
+            new Promise(resolve => textureLoader.load('images/eargear-2.jpg', resolve)),
+            new Promise(resolve => textureLoader.load('images/eargear-3.jpg', resolve))
+        ]).then(textures => {
+            // Image 1 - Case closed
+            const bb1 = createBillboard(textures[0], {x: 3, y: 3}, new THREE.Vector3(0, 0, 2), 0);
+            billboards.push({ mesh: bb1, phase: 0 });
+            scene.add(bb1);
+
+            // Image 2 - Case open
+            const bb2 = createBillboard(textures[1], {x: 3.2, y: 3.2}, new THREE.Vector3(0, 1.5, 2), 0);
+            billboards.push({ mesh: bb2, phase: 1 });
+            scene.add(bb2);
+
+            // Image 3 - Earbuds out
+            const bb3 = createBillboard(textures[2], {x: 3.5, y: 3.5}, new THREE.Vector3(0, 0.5, 3), 0);
+            billboards.push({ mesh: bb3, phase: 2 });
+            scene.add(bb3);
+        });
+
+        // Ambient particles
+        const particlesCount = 80;
+        const posArray = new Float32Array(particlesCount * 3);
+        const scaleArray = new Float32Array(particlesCount);
+        
+        for(let i = 0; i < particlesCount; i++) {
+            posArray[i * 3] = (Math.random() - 0.5) * 15;
+            posArray[i * 3 + 1] = (Math.random() - 0.5) * 15;
+            posArray[i * 3 + 2] = (Math.random() - 0.5) * 10;
+            scaleArray[i] = Math.random();
+        }
+
+        const particlesGeo = new THREE.BufferGeometry();
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particlesGeo.setAttribute('scale', new THREE.BufferAttribute(scaleArray, 1));
+
+        const particlesMat = new THREE.PointsMaterial({
+            size: 0.03,
+            color: 0x4488ff,
+            transparent: true,
+            opacity: 0.4,
+            sizeAttenuation: true
+        });
+
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        // Ground reflection
+        const groundGeo = new THREE.PlaneGeometry(20, 20);
+        const groundMat = new THREE.MeshStandardMaterial({
+            color: 0x000000,
+            roughness: 0.1,
+            metalness: 0.8
+        });
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = -2;
+        ground.receiveShadow = true;
+        scene.add(ground);
+
+        // Animation State
+        const state = {
+            scroll: 0,
+            lidOpen: 0,
+            earbudLift: 0,
+            caseRotation: 0,
+            caseFloat: 0,
+            billboardOpacity: [1, 0, 0],
+            cameraY: 1,
+            cameraZ: 12
         };
 
+        // Scroll handling
+        let targetScroll = 0;
+        let currentScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            targetScroll = window.scrollY / maxScroll;
+            document.getElementById('scrollProgress').style.width = (targetScroll * 100) + '%';
+        }, { passive: true });
+
+        // Text visibility
+        const observerOptions = { threshold: 0.5 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -714,97 +657,109 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
+        document.querySelectorAll('.section-text').forEach(el => observer.observe(el));
+
+        // Mouse interaction
+        let mouseX = 0, mouseY = 0;
+        let targetMouseX = 0, targetMouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
         });
 
-        // Opening animation on scroll
-        const openingSection = document.querySelector('.opening-section');
-        const caseClosed = document.getElementById('caseClosed');
-        const caseOpen = document.getElementById('caseOpen');
-        const popItems = [
-            document.getElementById('popItem1'),
-            document.getElementById('popItem2'),
-            document.getElementById('popItem3')
-        ];
+        // Animation loop
+        const clock = new THREE.Clock();
 
-        window.addEventListener('scroll', () => {
-            const rect = openingSection.getBoundingClientRect();
-            const sectionHeight = openingSection.offsetHeight;
-            const windowHeight = window.innerHeight;
-            
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                // Calculate scroll progress (0 to 1)
-                const scrollProgress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (sectionHeight + windowHeight)));
-                
-                // Phase 1: Show closed case (0% - 20%)
-                if (scrollProgress < 0.2) {
-                    const phase1Progress = scrollProgress / 0.2;
-                    caseClosed.style.opacity = 1;
-                    caseClosed.style.transform = `scale(${0.8 + (phase1Progress * 0.2)})`;
-                    caseOpen.style.opacity = 0;
-                    caseOpen.style.transform = 'scale(0.8)';
-                    popItems.forEach(item => {
-                        item.style.opacity = 0;
-                        item.style.transform = 'scale(0) translateY(50px)';
-                    });
-                }
-                // Phase 2: Open the case (20% - 50%)
-                else if (scrollProgress < 0.5) {
-                    const phase2Progress = (scrollProgress - 0.2) / 0.3;
-                    caseClosed.style.opacity = 1 - phase2Progress;
-                    caseClosed.style.transform = `scale(${1 + (phase2Progress * 0.3)}) rotate(${phase2Progress * 15}deg)`;
-                    caseOpen.style.opacity = phase2Progress;
-                    caseOpen.style.transform = `scale(${0.8 + (phase2Progress * 0.2)})`;
-                    popItems.forEach(item => {
-                        item.style.opacity = 0;
-                        item.style.transform = 'scale(0) translateY(50px)';
-                    });
-                }
-                // Phase 3: Items pop out (50% - 100%)
-                else {
-                    const phase3Progress = (scrollProgress - 0.5) / 0.5;
-                    caseClosed.style.opacity = 0;
-                    caseOpen.style.opacity = 1;
-                    caseOpen.style.transform = 'scale(1)';
-                    
-                    // Pop items one by one
-                    popItems.forEach((item, index) => {
-                        const itemThreshold = index * 0.15;
-                        const itemProgress = Math.max(0, Math.min(1, (phase3Progress - itemThreshold) / 0.3));
-                        
-                        if (itemProgress > 0) {
-                            // Pop out animation
-                            const scale = itemProgress < 0.5 
-                                ? itemProgress * 2.4  // Scale up to 1.2
-                                : 1.2 - ((itemProgress - 0.5) * 0.4); // Settle to 1.0
-                            const translateY = (1 - itemProgress) * -100;
-                            const rotate = itemProgress * 360;
-                            
-                            item.style.opacity = itemProgress;
-                            item.style.transform = `scale(${Math.max(0, scale)}) translateY(${translateY}px) rotate(${rotate}deg)`;
-                        } else {
-                            item.style.opacity = 0;
-                            item.style.transform = 'scale(0) translateY(50px)';
-                        }
-                    });
-                }
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const dt = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            // Smooth scroll interpolation
+            currentScroll += (targetScroll - currentScroll) * 0.05;
+            state.scroll = currentScroll;
+
+            // Calculate animation phases based on scroll
+            // Phase 1 (0-0.33): Rotate case, closed
+            // Phase 2 (0.33-0.66): Open lid
+            // Phase 3 (0.66-1): Lift earbuds
+
+            if (state.scroll < 0.33) {
+                const p = state.scroll / 0.33;
+                state.lidOpen = 0;
+                state.earbudLift = 0;
+                state.caseRotation = p * Math.PI * 2;
+                state.billboardOpacity = [1 - p, 0, 0];
+                state.cameraZ = 12 - p * 3;
+            } else if (state.scroll < 0.66) {
+                const p = (state.scroll - 0.33) / 0.33;
+                state.lidOpen = p * Math.PI * 0.65;
+                state.earbudLift = 0;
+                state.caseRotation = Math.PI * 2;
+                state.billboardOpacity = [0, p, 0];
+                state.cameraZ = 9;
+                state.cameraY = 1 + p * 0.5;
+            } else {
+                const p = (state.scroll - 0.66) / 0.34;
+                state.lidOpen = Math.PI * 0.65;
+                state.earbudLift = p;
+                state.caseRotation = Math.PI * 2 + p * 0.5;
+                state.billboardOpacity = [0, 1 - p, p];
+                state.cameraZ = 9 - p * 2;
+                state.cameraY = 1.5;
             }
-        });
 
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // Apply animations
+            lidGroup.rotation.x = -state.lidOpen;
+            
+            // Earbud lift with slight rotation
+            leftEarbud.position.y = 0.3 + state.earbudLift * 0.8;
+            leftEarbud.rotation.z = state.earbudLift * 0.3;
+            leftEarbud.rotation.x = state.earbudLift * 0.2;
+            
+            rightEarbud.position.y = 0.3 + state.earbudLift * 0.8;
+            rightEarbud.rotation.z = -state.earbudLift * 0.3;
+            rightEarbud.rotation.x = state.earbudLift * 0.2;
+
+            // Case rotation with float
+            caseGroup.rotation.y = state.caseRotation;
+            caseGroup.position.y = Math.sin(time * 0.8) * 0.08;
+
+            // Camera movement with mouse parallax
+            mouseX += (targetMouseX - mouseX) * 0.05;
+            mouseY += (targetMouseY - mouseY) * 0.05;
+
+            camera.position.x = mouseX * 0.5;
+            camera.position.y = state.cameraY + mouseY * 0.3;
+            camera.position.z = state.cameraZ;
+            camera.lookAt(0, 0.3, 0);
+
+            // Billboard opacity
+            billboards.forEach((bb, i) => {
+                if (bb.mesh) {
+                    bb.mesh.material.opacity = state.billboardOpacity[i] * 0.7;
+                    bb.mesh.rotation.y = state.caseRotation * 0.3;
+                    bb.mesh.position.y += Math.sin(time + i) * 0.001;
                 }
             });
+
+            // Particles animation
+            particles.rotation.y = time * 0.02;
+            particles.position.y = Math.sin(time * 0.3) * 0.1;
+
+            renderer.render(scene, camera);
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
+
+        animate();
     </script>
 </body>
 </html>
