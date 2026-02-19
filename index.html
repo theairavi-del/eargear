@@ -195,7 +195,7 @@
 
         .hero-image {
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
             margin-top: 60px;
             position: relative;
             opacity: 0;
@@ -278,7 +278,7 @@
 
         .feature-image {
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin: 40px auto 0;
         }
 
@@ -286,17 +286,18 @@
             width: 100%;
             height: auto;
             border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        /* Parallax Product Section */
-        .product-showcase {
-            min-height: 200vh;
+        /* Opening Animation Section */
+        .opening-section {
+            min-height: 300vh;
             position: relative;
             background: #000;
             overflow: hidden;
         }
 
-        .product-sticky {
+        .opening-sticky {
             position: sticky;
             top: 0;
             height: 100vh;
@@ -306,36 +307,82 @@
             overflow: hidden;
         }
 
-        .product-text {
+        .opening-text {
             position: absolute;
             text-align: center;
             color: #fff;
             z-index: 10;
+            top: 15%;
         }
 
-        .product-text h2 {
+        .opening-text h2 {
             font-size: 56px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
-        .product-text p {
+        .opening-text p {
             font-size: 24px;
             color: #86868b;
         }
 
-        .product-image-container {
+        /* Case container */
+        .case-container {
+            position: relative;
             width: 600px;
             height: 600px;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .product-image {
-            width: 100%;
-            height: 100%;
+        /* The closed case */
+        .case-closed {
+            position: absolute;
+            width: 400px;
+            height: 400px;
             object-fit: contain;
-            transform: scale(0.6);
-            transition: transform 0.1s linear;
+            transition: all 0.1s linear;
+            z-index: 5;
+        }
+
+        /* The open case (revealed as you scroll) */
+        .case-open {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            object-fit: contain;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.1s linear;
+            z-index: 4;
+        }
+
+        /* Popping items */
+        .pop-item {
+            position: absolute;
+            font-size: 48px;
+            opacity: 0;
+            transform: scale(0) translateY(0);
+            transition: all 0.1s linear;
+        }
+
+        .pop-item:nth-child(3) { /* Earbuds */
+            top: 30%;
+            left: 35%;
+            z-index: 6;
+        }
+
+        .pop-item:nth-child(4) { /* Lightning */
+            top: 60%;
+            right: 25%;
+            z-index: 6;
+        }
+
+        .pop-item:nth-child(5) { /* Accessories */
+            bottom: 25%;
+            left: 30%;
+            z-index: 6;
         }
 
         /* Specs Section */
@@ -384,6 +431,18 @@
             margin-bottom: 40px;
         }
 
+        .buy-image {
+            max-width: 500px;
+            margin: 0 auto 60px;
+        }
+
+        .buy-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+
         /* Footer */
         .footer {
             background: var(--apple-bg);
@@ -430,6 +489,21 @@
             }
         }
 
+        @keyframes popOut {
+            0% {
+                opacity: 0;
+                transform: scale(0) translateY(50px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -448,6 +522,10 @@
                 max-width: 90%;
             }
 
+            .hero-image img {
+                border-radius: 24px;
+            }
+
             .section-title {
                 font-size: 40px;
             }
@@ -461,9 +539,27 @@
                 gap: 40px;
             }
 
-            .product-image-container {
+            .case-container {
+                width: 350px;
+                height: 350px;
+            }
+
+            .case-closed {
+                width: 250px;
+                height: 250px;
+            }
+
+            .case-open {
                 width: 300px;
                 height: 300px;
+            }
+
+            .opening-text h2 {
+                font-size: 36px;
+            }
+
+            .opening-text p {
+                font-size: 18px;
             }
         }
     </style>
@@ -474,7 +570,7 @@
         <a href="#" class="nav-logo">EarGear</a>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
-            <li><a href="#design">Design</a></li>
+            <li><a href="#opening">Experience</a></li>
             <li><a href="#specs">Specs</a></li>
         </ul>
         <a href="#buy" class="nav-cta">Buy</a>
@@ -492,12 +588,7 @@
             </div>
         </div>
         <div class="hero-image">
-            <!-- Placeholder for EarGear product image -->
-            <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100%; aspect-ratio: 1; border-radius: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);">
-                <div style="width: 300px; height: 300px; background: radial-gradient(circle at 30% 30%, #333 0%, #1a1a1a 50%, #0d0d0d 100%); border-radius: 50%; box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 120px; height: 80px; background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 40px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"></div>
-                </div>
-            </div>
+            <img src="images/eargear-1.jpg" alt="EarGear Case - Matte Black Protective Case">
         </div>
     </section>
 
@@ -511,43 +602,42 @@
                 <h3>Matte Black Finish</h3>
                 <p>Smooth, fingerprint-resistant surface that stays pristine</p>
                 <div class="feature-image">
-                    <div style="background: linear-gradient(145deg, #1a1a1a 0%, #000 100%); width: 200px; height: 200px; margin: 0 auto; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);"></div>
+                    <img src="images/eargear-3.jpg" alt="EarGear Detail - Matte Black Finish">
                 </div>
             </div>
             <div class="feature-card">
-                <h3>Two-Piece Design</h3>
-                <p>Precision-molded halves that fit together seamlessly</p>
+                <h3>Premium Materials</h3>
+                <p>High-quality construction that feels as good as it looks</p>
                 <div class="feature-image">
-                    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
-                        <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100px; height: 150px; border-radius: 20px;"></div>
-                        <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100px; height: 150px; border-radius: 20px;"></div>
-                    </div>
+                    <img src="images/eargear-2.jpg" alt="EarGear Materials">
                 </div>
             </div>
             <div class="feature-card full-width">
-                <h3>Drop Protection</h3>
-                <p>Engineered to absorb impact and protect your investment</p>
-                <div class="feature-image" style="max-width: 600px;">
-                    <div style="background: linear-gradient(180deg, #f5f5f7 0%, #e8e8ed 100%); width: 100%; height: 300px; border-radius: 24px; display: flex; align-items: center; justify-content: center;">
-                        <div style="width: 200px; height: 200px; background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 50%; box-shadow: 0 30px 60px rgba(0,0,0,0.3);"></div>
-                    </div>
+                <h3>Complete Protection</h3>
+                <p>360-degree coverage that keeps your earbuds safe from drops, scratches, and daily wear</p>
+                <div class="feature-image" style="max-width: 700px;">
+                    <img src="images/eargear-1.jpg" alt="EarGear Complete Protection">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Product Showcase - Parallax Scroll -->
-    <section id="design" class="product-showcase">
-        <div class="product-sticky">
-            <div class="product-text">
-                <h2>Protection that pops.</h2>
-                <p>Watch as the case reveals your earbuds</p>
+    <!-- Opening Animation Section -->
+    <section id="opening" class="opening-section">
+        <div class="opening-sticky">
+            <div class="opening-text">
+                <h2>Unbox the experience.</h2>
+                <p>Scroll to reveal what's inside</p>
             </div>
-            <div class="product-image-container">
-                <!-- Animated product image placeholder -->
-                <div class="product-image" id="productImage" style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 50%; box-shadow: 0 40px 80px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 40%; height: 25%; background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
-                </div>
+            <div class="case-container">
+                <!-- Closed case -->
+                <img src="images/eargear-1.jpg" alt="EarGear Case Closed" class="case-closed" id="caseClosed">
+                <!-- Open case -->
+                <img src="images/eargear-2.jpg" alt="EarGear Case Open" class="case-open" id="caseOpen">
+                <!-- Popping items -->
+                <div class="pop-item" id="popItem1">🎧</div>
+                <div class="pop-item" id="popItem2">⚡</div>
+                <div class="pop-item" id="popItem3">🔒</div>
             </div>
         </div>
     </section>
@@ -558,24 +648,24 @@
             <h2 class="section-title">Tech Specs</h2>
             <div class="specs-grid">
                 <div class="spec-item">
-                    <h4>0.8mm</h4>
-                    <p>Ultra-thin profile</p>
-                </div>
-                <div class="spec-item">
-                    <h4>12g</h4>
-                    <p>Lightweight design</p>
-                </div>
-                <div class="spec-item">
-                    <h4>IPX4</h4>
-                    <p>Splash resistant</p>
+                    <h4>Premium</h4>
+                    <p>Matte black silicone</p>
                 </div>
                 <div class="spec-item">
                     <h4>360°</h4>
-                    <p>Full protection</p>
+                    <p>Full protection coverage</p>
                 </div>
                 <div class="spec-item">
                     <h4>Wireless</h4>
                     <p>Charging compatible</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Dustproof</h4>
+                    <p>Sealed construction</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Drop Safe</h4>
+                    <p>Impact absorption</p>
                 </div>
                 <div class="spec-item">
                     <h4>Matte</h4>
@@ -589,6 +679,9 @@
     <section id="buy" class="buy-section">
         <h2 class="buy-title">EarGear</h2>
         <p class="buy-price">$29</p>
+        <div class="buy-image">
+            <img src="images/eargear-1.jpg" alt="EarGear Product">
+        </div>
         <a href="#" class="btn-primary" style="font-size: 21px;">Add to Bag</a>
         <p style="margin-top: 20px; color: var(--apple-text-secondary); font-size: 14px;">Free shipping on all orders</p>
     </section>
@@ -625,21 +718,77 @@
             observer.observe(section);
         });
 
-        // Parallax product animation
-        const productSection = document.querySelector('.product-showcase');
-        const productImage = document.getElementById('productImage');
+        // Opening animation on scroll
+        const openingSection = document.querySelector('.opening-section');
+        const caseClosed = document.getElementById('caseClosed');
+        const caseOpen = document.getElementById('caseOpen');
+        const popItems = [
+            document.getElementById('popItem1'),
+            document.getElementById('popItem2'),
+            document.getElementById('popItem3')
+        ];
 
         window.addEventListener('scroll', () => {
-            const rect = productSection.getBoundingClientRect();
-            const sectionHeight = productSection.offsetHeight;
+            const rect = openingSection.getBoundingClientRect();
+            const sectionHeight = openingSection.offsetHeight;
             const windowHeight = window.innerHeight;
             
             if (rect.top < windowHeight && rect.bottom > 0) {
-                const scrollProgress = (windowHeight - rect.top) / (sectionHeight + windowHeight);
-                const scale = 0.6 + (scrollProgress * 0.6); // Scale from 0.6 to 1.2
-                const rotate = scrollProgress * 360; // Full rotation
+                // Calculate scroll progress (0 to 1)
+                const scrollProgress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (sectionHeight + windowHeight)));
                 
-                productImage.style.transform = `scale(${Math.min(scale, 1.2)}) rotate(${rotate}deg)`;
+                // Phase 1: Show closed case (0% - 20%)
+                if (scrollProgress < 0.2) {
+                    const phase1Progress = scrollProgress / 0.2;
+                    caseClosed.style.opacity = 1;
+                    caseClosed.style.transform = `scale(${0.8 + (phase1Progress * 0.2)})`;
+                    caseOpen.style.opacity = 0;
+                    caseOpen.style.transform = 'scale(0.8)';
+                    popItems.forEach(item => {
+                        item.style.opacity = 0;
+                        item.style.transform = 'scale(0) translateY(50px)';
+                    });
+                }
+                // Phase 2: Open the case (20% - 50%)
+                else if (scrollProgress < 0.5) {
+                    const phase2Progress = (scrollProgress - 0.2) / 0.3;
+                    caseClosed.style.opacity = 1 - phase2Progress;
+                    caseClosed.style.transform = `scale(${1 + (phase2Progress * 0.3)}) rotate(${phase2Progress * 15}deg)`;
+                    caseOpen.style.opacity = phase2Progress;
+                    caseOpen.style.transform = `scale(${0.8 + (phase2Progress * 0.2)})`;
+                    popItems.forEach(item => {
+                        item.style.opacity = 0;
+                        item.style.transform = 'scale(0) translateY(50px)';
+                    });
+                }
+                // Phase 3: Items pop out (50% - 100%)
+                else {
+                    const phase3Progress = (scrollProgress - 0.5) / 0.5;
+                    caseClosed.style.opacity = 0;
+                    caseOpen.style.opacity = 1;
+                    caseOpen.style.transform = 'scale(1)';
+                    
+                    // Pop items one by one
+                    popItems.forEach((item, index) => {
+                        const itemThreshold = index * 0.15;
+                        const itemProgress = Math.max(0, Math.min(1, (phase3Progress - itemThreshold) / 0.3));
+                        
+                        if (itemProgress > 0) {
+                            // Pop out animation
+                            const scale = itemProgress < 0.5 
+                                ? itemProgress * 2.4  // Scale up to 1.2
+                                : 1.2 - ((itemProgress - 0.5) * 0.4); // Settle to 1.0
+                            const translateY = (1 - itemProgress) * -100;
+                            const rotate = itemProgress * 360;
+                            
+                            item.style.opacity = itemProgress;
+                            item.style.transform = `scale(${Math.max(0, scale)}) translateY(${translateY}px) rotate(${rotate}deg)`;
+                        } else {
+                            item.style.opacity = 0;
+                            item.style.transform = 'scale(0) translateY(50px)';
+                        }
+                    });
+                }
             }
         });
 
