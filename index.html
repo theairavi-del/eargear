@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EarGear - Protection, perfected.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-text-secondary: #86868b;
+            --apple-blue: #0071e3;
+            --apple-blue-hover: #0077ed;
+            --nav-bg: rgba(251, 251, 253, 0.8);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fff;
+            color: var(--apple-text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation - Apple Style */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            background: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--apple-text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--apple-text);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-cta {
+            background: var(--apple-blue);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 980px;
+            font-size: 12px;
+            font-weight: 400;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--apple-blue-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            background: linear-gradient(180deg, #fff 0%, var(--apple-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 980px;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--apple-text);
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-title {
+            font-size: 96px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--apple-text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        .btn-primary {
+            background: var(--apple-blue);
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--apple-blue-hover);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            color: var(--apple-blue);
+            padding: 18px 36px;
+            font-size: 21px;
+            font-weight: 400;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            text-decoration: underline;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(60px) scale(0.9);
+            animation: heroImageIn 1.2s ease forwards;
+            animation-delay: 1s;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 40px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+        }
+
+        /* Scroll Reveal Sections */
+        .section {
+            padding: 160px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--apple-text-secondary);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+            line-height: 1.4;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--apple-bg);
+            border-radius: 28px;
+            padding: 60px 40px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .feature-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .feature-card h3 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .feature-card p {
+            font-size: 21px;
+            color: var(--apple-text-secondary);
+            line-height: 1.4;
+        }
+
+        .feature-image {
+            width: 100%;
+            max-width: 400px;
+            margin: 40px auto 0;
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        /* Parallax Product Section */
+        .product-showcase {
+            min-height: 200vh;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .product-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-text {
+            position: absolute;
+            text-align: center;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .product-text h2 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-text p {
+            font-size: 24px;
+            color: #86868b;
+        }
+
+        .product-image-container {
+            width: 600px;
+            height: 600px;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(0.6);
+            transition: transform 0.1s linear;
+        }
+
+        /* Specs Section */
+        .specs {
+            background: var(--apple-bg);
+            padding: 160px 20px;
+        }
+
+        .specs-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            text-align: center;
+        }
+
+        .spec-item h4 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--apple-text);
+        }
+
+        .spec-item p {
+            font-size: 17px;
+            color: var(--apple-text-secondary);
+        }
+
+        /* Buy Section */
+        .buy-section {
+            padding: 160px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .buy-title {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .buy-price {
+            font-size: 28px;
+            color: var(--apple-text-secondary);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--apple-bg);
+            padding: 40px 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: var(--apple-text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroImageIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .hero-subtitle {
+                font-size: 21px;
+            }
+
+            .hero-image {
+                max-width: 90%;
+            }
+
+            .section-title {
+                font-size: 40px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-image-container {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">EarGear</a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#design">Design</a></li>
+            <li><a href="#specs">Specs</a></li>
+        </ul>
+        <a href="#buy" class="nav-cta">Buy</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">Introducing</p>
+            <h1 class="hero-title">EarGear</h1>
+            <p class="hero-subtitle">Protection, perfected. A matte black case that safeguards your wireless earbuds in style.</p>
+            <div class="hero-cta">
+                <a href="#buy" class="btn-primary">Buy $29</a>
+                <a href="#features" class="btn-secondary">Learn more ></a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- Placeholder for EarGear product image -->
+            <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100%; aspect-ratio: 1; border-radius: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);">
+                <div style="width: 300px; height: 300px; background: radial-gradient(circle at 30% 30%, #333 0%, #1a1a1a 50%, #0d0d0d 100%); border-radius: 50%; box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 120px; height: 80px; background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 40px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <h2 class="section-title">Engineered for protection.<br>Designed for style.</h2>
+        <p class="section-subtitle">Every curve, every surface, every detail crafted to keep your earbuds safe while looking incredible.</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Matte Black Finish</h3>
+                <p>Smooth, fingerprint-resistant surface that stays pristine</p>
+                <div class="feature-image">
+                    <div style="background: linear-gradient(145deg, #1a1a1a 0%, #000 100%); width: 200px; height: 200px; margin: 0 auto; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);"></div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h3>Two-Piece Design</h3>
+                <p>Precision-molded halves that fit together seamlessly</p>
+                <div class="feature-image">
+                    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+                        <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100px; height: 150px; border-radius: 20px;"></div>
+                        <div style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); width: 100px; height: 150px; border-radius: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card full-width">
+                <h3>Drop Protection</h3>
+                <p>Engineered to absorb impact and protect your investment</p>
+                <div class="feature-image" style="max-width: 600px;">
+                    <div style="background: linear-gradient(180deg, #f5f5f7 0%, #e8e8ed 100%); width: 100%; height: 300px; border-radius: 24px; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 200px; height: 200px; background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 50%; box-shadow: 0 30px 60px rgba(0,0,0,0.3);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase - Parallax Scroll -->
+    <section id="design" class="product-showcase">
+        <div class="product-sticky">
+            <div class="product-text">
+                <h2>Protection that pops.</h2>
+                <p>Watch as the case reveals your earbuds</p>
+            </div>
+            <div class="product-image-container">
+                <!-- Animated product image placeholder -->
+                <div class="product-image" id="productImage" style="background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 50%; box-shadow: 0 40px 80px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 40%; height: 25%; background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs Section -->
+    <section id="specs" class="specs">
+        <div class="section" style="opacity: 1; transform: none; padding: 0;">
+            <h2 class="section-title">Tech Specs</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h4>0.8mm</h4>
+                    <p>Ultra-thin profile</p>
+                </div>
+                <div class="spec-item">
+                    <h4>12g</h4>
+                    <p>Lightweight design</p>
+                </div>
+                <div class="spec-item">
+                    <h4>IPX4</h4>
+                    <p>Splash resistant</p>
+                </div>
+                <div class="spec-item">
+                    <h4>360°</h4>
+                    <p>Full protection</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Wireless</h4>
+                    <p>Charging compatible</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Matte</h4>
+                    <p>Fingerprint resistant</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Buy Section -->
+    <section id="buy" class="buy-section">
+        <h2 class="buy-title">EarGear</h2>
+        <p class="buy-price">$29</p>
+        <a href="#" class="btn-primary" style="font-size: 21px;">Add to Bag</a>
+        <p style="margin-top: 20px; color: var(--apple-text-secondary); font-size: 14px;">Free shipping on all orders</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p style="font-size: 12px; color: var(--apple-text-secondary);">© 2026 EarGear. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Parallax product animation
+        const productSection = document.querySelector('.product-showcase');
+        const productImage = document.getElementById('productImage');
+
+        window.addEventListener('scroll', () => {
+            const rect = productSection.getBoundingClientRect();
+            const sectionHeight = productSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                const scrollProgress = (windowHeight - rect.top) / (sectionHeight + windowHeight);
+                const scale = 0.6 + (scrollProgress * 0.6); // Scale from 0.6 to 1.2
+                const rotate = scrollProgress * 360; // Full rotation
+                
+                productImage.style.transform = `scale(${Math.min(scale, 1.2)}) rotate(${rotate}deg)`;
+            }
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
