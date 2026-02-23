@@ -317,7 +317,7 @@ body {
   
   /* Show interleaved images */
   .mobile-img {
-    display: block;
+    display: block !important;
     margin: 0 auto 30px auto;
   }
 
