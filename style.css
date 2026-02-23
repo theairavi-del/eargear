@@ -305,7 +305,8 @@ body {
   max-width: 500px;
   object-fit: contain;
   margin-bottom: 20px;
-  mix-blend-mode: darken;
+  position: relative;
+  z-index: 10;
 }
 
 /* MOBILE RESPONSIVE */
