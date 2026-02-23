@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirPods Pro & EarGear</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="logo">EarGear</div>
+      <div class="nav-links">
+        <a href="#hero">Overview</a>
+        <a href="#eargear-story">The Case</a>
+      </div>
+      <div class="nav-buy-container">
+        <button class="buy-button">Buy</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Single Image Light Engine Section -->
+  <section id="hero" class="hero-section">
+    <div class="sticky-container">
+      
+      <!-- Intro White Screen Text (Fades out) -->
+      <div class="intro-screen" id="intro-screen">
+        <h1>EarGear Pro</h1>
+        <p>The ultimate case for your AirPods.</p>
+        <div class="scroll-indicator">
+          <span>Scroll</span>
+          <div class="arrow-down"></div>
+        </div>
+      </div>
+
+      <div class="single-image-wrapper">
+        <!-- We use 1 single image instead of 148 -->
+        <img src="eargear/1.jpeg" alt="EarGear Pro" class="hero-img">
+        <!-- The simulated studio light -->
+        <div class="glare"></div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- EarGear Dynamic Scroll Section -->
+  <section id="eargear-story" class="eargear-section">
+    <div class="eargear-sticky">
+      <!-- Images that crossfade based on scroll -->
+      <img src="eargear/4.jpeg" class="eargear-img active" id="eg-img-1" alt="Seamless Integration">
+      <img src="eargear/5.jpeg" class="eargear-img" id="eg-img-2" alt="Ready to Run">
+      <img src="eargear/2.jpeg" class="eargear-img" id="eg-img-3" alt="Built for Action">
+    </div>
+
+    <!-- The text that scrolls over the sticky side -->
+    <div class="eargear-content">
+      <div class="scroll-step" data-index="1">
+        <img src="eargear/4.jpeg" class="mobile-img" alt="Seamless Integration">
+        <h2>The Ultimate Case.</h2>
+        <p>More than just protection. EarGear is an AirPods Pro case built to house the buds and something extra.</p>
+      </div>
+      
+      <div class="scroll-step" data-index="2">
+        <img src="eargear/2.jpeg" class="mobile-img" alt="Built for Action">
+        <h2>Built for Action.</h2>
+        <p>Integrated directly into the shell, EarGear holds specialized ear attachments designed specifically for high-intensity movement.</p>
+      </div>
+      
+      <div class="scroll-step" data-index="3">
+        <img src="eargear/5.jpeg" class="mobile-img" alt="Ready to Run">
+        <h2>Ready to Run.</h2>
+        <p>Sweat-proof, durable, and pocket-friendly. Keep your music flowing and your AirPods secured, no matter the pace.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="buy-section">
+    <h2>Secure Your Sound.</h2>
+    <p>Get the EarGear Case today.</p>
+    <button class="buy-button large-buy">Buy Now - $49</button>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
